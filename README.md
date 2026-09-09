@@ -73,5 +73,5 @@ await bank.breakBank()
 
 ### Состояние сети после вызова контракт
 ![Блоки](./images/blocks.png)
-![Транзакции](./images/transcations.png)
+![Транзакции](./images/transactions.png)
 ![События](./images/events.png)
