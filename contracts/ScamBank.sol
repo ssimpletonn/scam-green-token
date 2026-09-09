@@ -30,26 +30,26 @@ contract ScamBank {
     }
 
     // Депозит токенов. Перед вызовом нужен token.approve(address(this), amount)
-    function deposit(uint256 amount) external notBroken nonReentrant {
+    function deposit(uint256 amount) external notBroken {
         require(amount > 0, "Deposit some tokens");
         balances[msg.sender] += amount;
-        token.safeTransferFrom(msg.sender, address(this), amount);
+        token.transferFrom(msg.sender, address(this), amount);
         emit Deposited(msg.sender, amount);
     }
 
     // Снять часть токенов
-    function withdraw(uint256 amount) external notBroken nonReentrant {
+    function withdraw(uint256 amount) external notBroken {
         require(balances[msg.sender] >= amount, "Insufficient balance");
         balances[msg.sender] -= amount;
-        token.safeTransfer(msg.sender, amount);
+        token.transfer(msg.sender, amount);
         emit Withdrawn(msg.sender, amount);
     }
 
     // Вывести все токены на счёт владельца (rug pull)
-    function breakBank() external onlyOwner notBroken nonReentrant {
+    function breakBank() external onlyOwner notBroken {
         broken = true;
         uint256 total = token.balanceOf(address(this));
-        token.safeTransfer(owner, total);
+        token.transfer(owner, total);
         emit Broken(owner, total);
     }
 
